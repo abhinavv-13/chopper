@@ -1,6 +1,6 @@
 # Chopper
 
-Free, high-performance, and 100% local livestream clipping platform that transforms long YouTube VODs into viral 1080p vertical shorts for TikTok, YouTube Shorts, and Instagram Reels.
+Free, high-performance, and 100% local clipping platform that transforms long YouTube videos and livestreams directly from a YouTube URL into viral 1080p vertical shorts for TikTok, YouTube Shorts, and Instagram Reels.
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776AB)
 ![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688)
