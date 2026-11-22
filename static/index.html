@@ -2397,6 +2397,10 @@
       if (window.lucide) window.lucide.createIcons();
     }
 
+    // Expose for automation and testing
+    window.ChopperLoader = ChopperLoader;
+    window.renderClips = renderClips;
+
     // Submit Form (Stream URL)
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
