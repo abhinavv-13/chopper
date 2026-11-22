@@ -20,17 +20,17 @@ Chopper ingests hours of raw livestream footage and automates the entire vertica
 ## Architecture
 
 ```mermaid
-flowchart TD
-    A[Stream URL or Local MP4/MKV] --> B[FastAPI Ingestion Engine]
+flowchart LR
+    A[Stream URL or Local File] --> B[FastAPI Ingestion]
     B --> C[Audio Energy Peak Detection]
-    B --> D[Neural Facecam Detection: OpenCV YuNet]
-    C --> E[Whisper AI Speech Transcription]
-    D --> F[Dynamic 9:16 Composite Layout]
-    E --> G[ASS Animated Karaoke Subtitles]
-    F --> H[FFmpeg 1080x1920 Hardware Encoder]
+    B --> D[Neural Facecam: OpenCV YuNet]
+    C --> E[Whisper AI Transcription]
+    D --> F[9:16 Framing Engine]
+    E --> G[ASS Karaoke Subtitles]
+    F --> H[FFmpeg 1080p Encoder]
     G --> H
-    H --> I[Loudness Normalization: -14 LUFS]
-    I --> J[Production Vertical MP4 Output]
+    H --> I[-14 LUFS Normalization]
+    I --> J[(Vertical MP4 Output)]
 ```
 
 ### Processing pipeline
