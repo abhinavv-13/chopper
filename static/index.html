@@ -47,7 +47,7 @@
           "price": "0",
           "priceCurrency": "USD"
         },
-        "description": "On-device stream clipping platform that converts Twitch and YouTube streams into viral 1080x1920 vertical shorts with karaoke subtitles.",
+        "description": "On-device stream clipping platform that converts YouTube streams into viral 1080x1920 vertical shorts with karaoke subtitles.",
         "featureList": [
           "Automated Streamer Facecam Detection",
           "Replay Heatmap Reaction Peak Detection",
@@ -1592,7 +1592,7 @@
 
             <form id="chop-form">
               <label class="input-label" for="stream-url-input">
-                YOUTUBE OR TWITCH STREAM URL
+                YOUTUBE STREAM URL
               </label>
               
               <div class="input-bar">
@@ -1600,7 +1600,7 @@
                   type="url" 
                   id="stream-url-input" 
                   class="stream-input" 
-                  placeholder="https://www.youtube.com/watch?v=... or Twitch VOD" 
+                  placeholder="https://www.youtube.com/watch?v=..." 
                   autocomplete="off" 
                   spellcheck="false"
                   required
@@ -2132,7 +2132,7 @@
     tabUrl.addEventListener('click', () => {
       tabUrl.classList.add('is-active');
       tabFile.classList.remove('is-active');
-      urlInput.placeholder = 'https://www.youtube.com/watch?v=... or Twitch VOD';
+      urlInput.placeholder = 'https://www.youtube.com/watch?v=...';
       urlInput.focus();
     });
 

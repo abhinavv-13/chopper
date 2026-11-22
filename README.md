@@ -22,7 +22,7 @@ Chopper ingests hours of raw livestream footage and automates the entire vertica
 
 ```mermaid
 flowchart LR
-    A[Stream URL or Local File] --> B[FastAPI Ingestion]
+    A[YouTube URL or Local File] --> B[FastAPI Ingestion]
     B --> C[Audio Energy Peak Detection]
     B --> D[Neural Facecam: OpenCV YuNet]
     C --> E[Whisper AI Transcription]
@@ -36,7 +36,7 @@ flowchart LR
 
 ### Processing pipeline
 
-1. **Ingestion & Stream Verification**: Resolves stream source (via `yt-dlp` or local upload), verifies container codecs, and extracts keyframe metadata.
+1. **Ingestion & Stream Verification**: Resolves YouTube video or livestream URL directly using built-in `yt-dlp` (or accepts local video file uploads), verifies container codecs, and extracts keyframe metadata with zero external APIs.
 2. **Highlight Discovery**: Computes root-mean-square (RMS) energy windows across the audio track to pinpoint high-energy segments (laughter, shouts, clutch moments).
 3. **Facecam Localization**: Analyzes stream quadrants using the OpenCV YuNet ONNX face detection model to crop the camera feed and generate framing coordinates.
 4. **Whisper Transcription**: Generates word-level timestamps and formats animated ASS karaoke subtitle dialogue layers.
@@ -105,11 +105,11 @@ http://127.0.0.1:8000
 
 ## Workflows
 
-### 1. URL Clipping
+### 1. YouTube URL Clipping
 
-1. Paste any public YouTube or Twitch stream link into the input bar.
+1. Paste any public YouTube video or livestream URL (e.g. `https://www.youtube.com/watch?v=...`) into the input bar.
 2. Select desired clip duration (30s, 45s, 60s).
-3. Click **Chop Stream**.
+3. Click **Chop Stream**. Chopper directly resolves the YouTube stream via built-in `yt-dlp` locally on your machine with zero cloud uploads or third-party API dependencies.
 4. The Chopper HUD displays real-time processing passes (Facecam Locking, Audio Peak Slicing, Caption Burn-in).
 5. Preview clips in the batch modal and download final 1080p MP4 files.
 
