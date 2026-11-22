@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>404 Not Found · Chopper</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#FFF9F0">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=3">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=3">
+  <link rel="shortcut icon" href="/favicon.ico?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="/lucide.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #FFF9F0;
+      --bg-secondary: #FFFEFA;
+      --primary-pink: #AF134A;
+      --hover-pink: #8F0E3B;
+      --soft-pink: #FFE8EF;
+      --text-dark: #292326;
+      --text-secondary: #5C4F55;
+      --border-color: #F1DFE3;
+      --duration-fast: 250ms;
+      --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      background-image: radial-gradient(circle at 50% 20%, rgba(255, 91, 138, 0.08), transparent 60%);
+    }
+    .card {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 24px;
+      padding: 48px 36px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.05);
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(175, 19, 74, 0.15);
+    }
+    .code {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--primary-pink);
+      background: var(--soft-pink);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--primary-pink);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px 24px;
+      border-radius: 12px;
+      transition: transform var(--duration-fast) var(--ease-smooth-out), background-color var(--duration-fast) var(--ease-smooth-out);
+      box-shadow: 0 4px 14px rgba(175, 19, 74, 0.2);
+    }
+    .btn:hover {
+      background: var(--hover-pink);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="/assets/chopper-avatar.jpg" alt="Chopper Mascot" class="avatar">
+    <div class="code">404 Error</div>
+    <h1>Lost on the Grand Line?</h1>
+    <p>Chopper searched the entire ship, but this page could not be found or has moved.</p>
+    <a href="/" class="btn">
+      <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+      <span>Back to Chopper Home</span>
+    </a>
+  </div>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>

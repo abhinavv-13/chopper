@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-type="software" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Chopper · Cute Local Stream Clipper</title>
+  <meta name="page-type" content="software">
+  <meta name="site-kind" content="software">
+  <meta name="description" content="Chop hours of livestreams into viral vertical shorts in seconds. 100% on-device, zero cloud fees, automated facecam framing and Whisper subtitles.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#FFF9F0">
+  <link rel="canonical" href="https://chopper.video/">
+
+  <!-- FAVICON & APP ICONS -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=3">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=3">
+  <link rel="shortcut icon" href="/favicon.ico?v=3">
+
+  <!-- OPEN GRAPH / FACEBOOK -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chopper">
+  <meta property="og:title" content="Chopper · Cute Local Stream Clipper">
+  <meta property="og:description" content="Chop hours of livestreams into viral vertical shorts in seconds. 100% on-device, zero cloud fees, automated facecam framing and Whisper subtitles.">
+  <meta property="og:image" content="https://chopper.video/assets/chopper-avatar.jpg">
+  <meta property="og:url" content="https://chopper.video/">
+
+  <!-- TWITTER / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chopper · Cute Local Stream Clipper">
+  <meta name="twitter:description" content="Chop hours of livestreams into viral vertical shorts in seconds. 100% on-device processing.">
+  <meta name="twitter:image" content="https://chopper.video/assets/chopper-avatar.jpg">
+
+  <!-- STRUCTURED DATA (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Chopper",
+        "operatingSystem": "Windows, macOS, Linux",
+        "applicationCategory": "MultimediaApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "On-device stream clipping platform that converts Twitch and YouTube streams into viral 1080x1920 vertical shorts with karaoke subtitles.",
+        "featureList": [
+          "Automated Streamer Facecam Detection",
+          "Replay Heatmap Reaction Peak Detection",
+          "Whisper Neural Speech-to-Text Subtitles",
+          "1080x1920 60FPS Full HD Local Rendering",
+          "100% On-Device Privacy"
+        ]
+      },
+      {
+        "@type": "Organization",
+        "name": "Chopper Studio",
+        "url": "https://chopper.video/",
+        "logo": "https://chopper.video/assets/chopper-avatar.jpg"
+      },
+      {
+        "@type": "WebSite",
+        "name": "Chopper",
+        "url": "https://chopper.video/"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="/sonner.css">
+  <script src="/lucide.min.js"></script>
+  <script src="/gsap.min.js"></script>
+  <script src="/ScrollTrigger.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #FFF9F0;
+      --bg-secondary: #FFFEFA;
+      --primary-pink: #AF134A;
+      --accent-pink: #FF5B8A;
+      --hover-pink: #8F0E3B;
+      --active-pink: #73082D;
+      --soft-pink: #FFE8EF;
+      --pale-pink: #FFF0F5;
+      --text-dark: #292326;
+      --text-secondary: #5C4F55;
+      --warm-brown: #75452C;
+      --soft-peach: #FFD9C5;
+      --lavender: #E9DFFF;
+      --border-color: #F1DFE3;
+      --border-focus: #D92662;
+      --card-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
+      --card-shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.08);
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    /* ── TRANSITIONS.DEV MOTION TOKENS ── */
+    --duration-stagger: 40ms;
+    --duration-micro: 80ms;
+    --duration-quick: 150ms;
+    --duration-fast: 250ms;
+    --duration-medium: 350ms;
+    --duration-slow: 400ms;
+    --duration-very-slow: 500ms;
+    --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: ease-in-out;
+    --ease-out: ease-out;
+    --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+    --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
+    --distance-micro: 4px;
+    --distance-base: 8px;
+    --scale-large: 0.96;
+    --scale-medium: 0.97;
+    --scale-small: 0.98;
+    --blur-small: 2px;
+    --blur-medium: 3px;
+
+    /* Component Motion Tokens */
+    --modal-open-dur: 250ms;
+    --modal-close-dur: 150ms;
+    --modal-scale: 0.96;
+    --modal-scale-close: 0.96;
+    --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --tabs-dur: 250ms;
+    --tabs-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --toast-open: 350ms;
+    --toast-close: 250ms;
+    --toast-distance: 16px;
+    --toast-blur: 2px;
+    --toast-scale: 0.97;
+    --toast-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-dark);
+      font-family: var(--font-family);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(ellipse 60% 40% at 50% -5%, rgba(217, 38, 98, 0.06), transparent 70%),
+        radial-gradient(circle at 90% 15%, rgba(255, 217, 197, 0.25), transparent 50%),
+        radial-gradient(circle at 10% 30%, rgba(233, 223, 255, 0.2), transparent 45%);
+    }
+
+    .wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+        /* LUCIDE ICON STYLES */
+    .lucide {
+      width: 1em;
+      height: 1em;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: -0.15em;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .icon-xs { width: 14px; height: 14px; }
+    .icon-sm { width: 16px; height: 16px; }
+    .icon-md { width: 18px; height: 18px; }
+    .icon-lg { width: 22px; height: 22px; }
+    .icon-xl { width: 28px; height: 28px; }
+    .animate-spin {
+      animation: icon-spin 1s linear infinite;
+    }
+    @keyframes icon-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* TOP NAVBAR */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(255, 254, 250, 0.94);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-dark);
+    }
+    .brand-img {
+      height: 48px;
+      width: auto;
+      max-width: 64px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.06));
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .brand:hover .brand-img {
+      transform: scale(1.05);
+    }
+    .brand-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary-pink);
+      background: var(--soft-pink);
+      padding: 4px 8px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+    .nav-link:hover {
+      color: var(--primary-pink);
+    }
+    .nav-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--warm-brown);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary-pink);
+      border-radius: 9999px;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: 64px 0 84px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    /* LEFT: CONTROL & INPUT */
+    .hero-title {
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height: 1.12;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--text-dark);
+    }
+    .hero-title .highlight {
+      color: var(--primary-pink);
+      position: relative;
+      display: inline-block;
+    }
+    .hero-title .highlight::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 4px;
+      height: 12px;
+      background: rgba(255, 91, 138, 0.2);
+      border-radius: 6px;
+      z-index: -1;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 540px;
+      margin-bottom: 32px;
+      font-weight: 500;
+    }
+
+    /* INPUT TERMINAL CARD */
+    .terminal-card {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 26px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+    }
+    .tab-row {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: var(--pale-pink);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .tab-sliding-pill {
+      position: absolute;
+      top: 4px;
+      left: 0;
+      height: calc(100% - 8px);
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(175, 19, 74, 0.15);
+      pointer-events: none;
+      transition:
+        transform var(--tabs-dur) var(--tabs-ease),
+        width var(--tabs-dur) var(--tabs-ease);
+      will-change: transform, width;
+    }
+    .tab-btn {
+      position: relative;
+      z-index: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color var(--tabs-dur) var(--tabs-ease);
+    }
+    .tab-btn.is-active {
+      color: var(--primary-pink);
+    }
+    .tab-btn:hover:not(.is-active) {
+      color: var(--text-dark);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tab-sliding-pill { transition: none !important; }
+    }
+
+    /* INPUT BAR */
+    .input-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--warm-brown);
+      margin-bottom: 8px;
+    }
+    .input-bar {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+      background: #FFF;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 5px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .input-bar:focus-within {
+      border-color: var(--primary-pink);
+      box-shadow: 0 0 0 3px rgba(217, 38, 98, 0.15);
+    }
+    .stream-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-dark);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 14px;
+      font-family: var(--font-family);
+    }
+    .stream-input::placeholder {
+      color: #7A6D73;
+    }
+    .btn-paste {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn-paste:hover {
+      background: var(--soft-pink);
+      color: var(--primary-pink);
+      border-color: var(--primary-pink);
+    }
+    .btn-chop {
+      background: var(--primary-pink);
+      border: none;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    }
+    .btn-chop:hover {
+      background: var(--hover-pink);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+    }
+    .btn-chop:active {
+      transform: translateY(0);
+      background: var(--active-pink);
+    }
+    .btn-chop:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-mascot-emoji {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+    .btn-chop:hover .btn-mascot-emoji {
+      transform: scale(1.18) rotate(4deg);
+    }
+
+    /* DURATION SELECTOR */
+    .duration-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .duration-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--warm-brown);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .dur-pills {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      background: var(--pale-pink);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+    }
+    .dur-sliding-pill {
+      position: absolute;
+      top: 3px;
+      left: 0;
+      height: calc(100% - 6px);
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(175, 19, 74, 0.15);
+      pointer-events: none;
+      transition:
+        transform var(--tabs-dur) var(--tabs-ease),
+        width var(--tabs-dur) var(--tabs-ease);
+      will-change: transform, width;
+    }
+    .dur-pill {
+      position: relative;
+      z-index: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: color var(--tabs-dur) var(--tabs-ease);
+    }
+    .dur-pill.is-active {
+      color: var(--primary-pink);
+      font-weight: 800;
+    }
+    .dur-pill:hover:not(.is-active) {
+      color: var(--text-dark);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dur-sliding-pill { transition: none !important; }
+    }
+
+    /* INSTANT DEMO CLICKS */
+    .sample-row {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .sample-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+    .sample-chip {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-dark);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .sample-chip:hover {
+      background: var(--soft-pink);
+      border-color: var(--primary-pink);
+      color: var(--primary-pink);
+    }
+
+    /* TRUST METRICS STRIP */
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .trust-item {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+    .trust-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary-pink);
+      letter-spacing: -0.5px;
+    }
+    .trust-lbl {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* RIGHT COLUMN: CHOPPER STUDIO SHOWCASE */
+    .showcase-wrapper {
+      position: relative;
+    }
+    .showcase-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--primary-pink);
+      letter-spacing: 0.5px;
+    }
+    .showcase-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary-pink);
+      border-radius: 9999px;
+    }
+    .showcase-meta {
+      font-size: 11px;
+      color: var(--warm-brown);
+      font-weight: 800;
+      background: var(--soft-peach);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    /* 9:16 LIVE VIDEO FRAME */
+    .video-viewport {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      aspect-ratio: 9/16;
+      background: #1C1618;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid #FFF;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+    }
+    .video-viewport video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* HUD OVERLAYS ON VIDEO */
+    .hud-creator-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--primary-pink);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      z-index: 5;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.2;
+    }
+    .hud-hd-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--border-color);
+      color: var(--warm-brown);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      z-index: 5;
+    }
+    .hud-facecam-box {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      height: 38%;
+      border: 2px dashed rgba(255, 91, 138, 0.85);
+      border-radius: 10px;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .hud-facecam-label {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--primary-pink);
+      color: var(--primary-pink);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .hud-divider-seam {
+      position: absolute;
+      top: 38%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary-pink);
+      z-index: 5;
+    }
+    .hud-subtitles {
+      position: absolute;
+      bottom: 16%;
+      left: 14px;
+      right: 14px;
+      text-align: center;
+      background: rgba(41, 35, 38, 0.9);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #FFF;
+      z-index: 6;
+      line-height: 1.25;
+    }
+    .hud-subtitles .word-active {
+      color: #FFE1EB;
+      text-decoration: underline;
+      text-decoration-color: var(--primary-pink);
+    }
+
+    /* AUDIO WAVEFORM & HEATMAP STRIP */
+    .waveform-strip {
+      margin-top: 16px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .waveform-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .waveform-title {
+      font-weight: 800;
+      color: var(--warm-brown);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .waveform-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 28px;
+      padding: 2px 0;
+    }
+    .wbar {
+      flex: 1;
+      background: rgba(117, 69, 44, 0.15);
+      border-radius: 4px;
+    }
+    .wbar.is-peak {
+      background: var(--primary-pink);
+    }
+    .wbar.is-hype {
+      background: var(--warm-brown);
+    }
+    .waveform-peaks {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .peak-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .peak-tag.scream {
+      background: var(--soft-pink);
+      color: var(--primary-pink);
+      border: 1px solid rgba(217, 38, 98, 0.4);
+    }
+    .peak-tag.hype {
+      background: var(--soft-peach);
+      color: var(--warm-brown);
+      border: 1px solid rgba(117, 69, 44, 0.3);
+    }
+
+    /* SECTION 2: 3-STEP PIPELINE */
+    .sec-pipeline {
+      padding: 88px 0;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .sec-heading {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 56px;
+    }
+    .sec-title {
+      font-size: clamp(30px, 3.6vw, 44px);
+      letter-spacing: -0.5px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .sec-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .pipeline-card {
+      background: var(--bg-primary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px 24px;
+      position: relative;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+    .pipeline-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary-pink);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .step-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--primary-pink);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+    .step-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .step-pill {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary-pink);
+      background: var(--soft-pink);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      border: 1px solid rgba(217, 38, 98, 0.3);
+    }
+
+    /* SECTION 3: FEATURES GRID */
+    .sec-features {
+      padding: 88px 0;
+      background: var(--bg-primary);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feat-card {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: border-color 0.15s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: var(--card-shadow);
+    }
+    .feat-card:hover {
+      border-color: var(--primary-pink);
+      transform: translateY(-3px);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .feat-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.3px;
+    }
+    .feat-glyph {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-pink);
+      flex-shrink: 0;
+    }
+    .feat-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* SECTION 4: BENCHMARK / COMPARISON */
+    .sec-comparison {
+      padding: 88px 0;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+    }
+    .table-wrapper {
+      background: var(--bg-primary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .comp-table th, .comp-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .comp-table th {
+      background: var(--bg-secondary);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+    }
+    .comp-table th.col-highlight {
+      color: var(--primary-pink);
+      background: var(--soft-pink);
+      font-weight: 800;
+    }
+    .comp-table td.col-highlight {
+      background: rgba(217, 38, 98, 0.04);
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid rgba(241, 223, 227, 0.2);
+      padding: 60px 0 48px;
+      background: #231C1F;
+      color: #FFF9F0;
+      text-align: center;
+    }
+    .footer-logo {
+      height: 96px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+      margin: 0 auto 16px;
+      display: block;
+      filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.35));
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .footer-logo:hover {
+      transform: scale(1.05);
+    }
+    .footer-brand {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #FFF9F0;
+      margin-bottom: 8px;
+    }
+    .footer-desc {
+      font-size: 14px;
+      color: #E2D7DC;
+      margin-bottom: 20px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-link-btn, .footer-link {
+      background: none;
+      border: none;
+      color: #E2D7DC;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      font-family: inherit;
+      padding: 4px 6px;
+    }
+    .footer-link-btn:hover, .footer-link:hover {
+      color: var(--accent-pink);
+    }
+    .footer-divider {
+      color: rgba(241, 223, 227, 0.3);
+      font-size: 12px;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: #A99B9F;
+    }
+
+    /* INFO DIALOGS (PRIVACY & TERMS) */
+    .info-modal-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(41, 35, 38, 0.28);
+      text-align: left;
+    }
+    .info-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+    }
+    .info-modal-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+    }
+    .info-modal-body p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .info-modal-body h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 18px 0 6px;
+    }
+
+    /* BATCH CLIPS MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(41, 35, 38, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--modal-close-dur) var(--modal-ease);
+      will-change: opacity;
+    }
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity var(--modal-open-dur) var(--modal-ease);
+    }
+    .modal-card, .info-modal-card {
+      transform-origin: center;
+      transform: scale(var(--modal-scale));
+      opacity: 0;
+      transition:
+        transform var(--modal-close-dur) var(--modal-ease),
+        opacity var(--modal-close-dur) var(--modal-ease);
+      will-change: transform, opacity;
+    }
+    .modal-overlay.is-open .modal-card,
+    .modal-overlay.is-open .info-modal-card {
+      transform: scale(1);
+      opacity: 1;
+      transition:
+        transform var(--modal-open-dur) var(--modal-ease),
+        opacity var(--modal-open-dur) var(--modal-ease);
+    }
+    .modal-overlay.is-closing {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--modal-close-dur) var(--modal-ease);
+    }
+    .modal-overlay.is-closing .modal-card,
+    .modal-overlay.is-closing .info-modal-card {
+      transform: scale(var(--modal-scale-close));
+      opacity: 0;
+      transition:
+        transform var(--modal-close-dur) var(--modal-ease),
+        opacity var(--modal-close-dur) var(--modal-ease);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .modal-overlay, .modal-card, .info-modal-card {
+        transition: none !important;
+      }
+    }
+    .modal-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--primary-pink);
+      border-radius: 20px;
+      max-width: 1100px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(41, 35, 38, 0.25);
+    }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .modal-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-dark);
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .modal-close:hover {
+      color: var(--primary-pink);
+      background: var(--soft-pink);
+    }
+
+    .clips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .clip-card {
+      background: var(--bg-primary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+    .clip-media {
+      aspect-ratio: 9/16;
+      background: #1C1618;
+      position: relative;
+    }
+    .clip-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .clip-info {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .clip-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .clip-time {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+    .btn-download {
+      background: var(--primary-pink);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: auto;
+      display: block;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .btn-download:hover {
+      background: var(--hover-pink);
+      transform: translateY(-1px);
+    }
+
+    /* PROCESSING HUD DIALOG & CHOPPER LOADER */
+    .hud-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(41, 35, 38, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1050;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .hud-overlay.is-open {
+      display: flex;
+    }
+    .hud-box {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px 24px 22px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(41, 35, 38, 0.28), 0 4px 16px rgba(175, 19, 74, 0.12);
+      animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .chopper-loader-frame {
+      width: 100%;
+      max-width: 432px;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto 16px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--bg-primary);
+      position: relative;
+    }
+    .chopper-loader-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: var(--bg-primary);
+    }
+    .chopper-loader-poster {
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: var(--bg-primary);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chopper-loader-video {
+        display: none !important;
+      }
+      .chopper-loader-poster {
+        display: block !important;
+      }
+    }
+    .chopper-loader-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 254, 250, 0.94);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary-pink);
+      border: 1px solid var(--border-color);
+      pointer-events: none;
+    }
+    .chopper-loader-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary-pink);
+      display: inline-block;
+    }
+    .hud-msg {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+      min-height: 26px;
+      transition: color 0.25s ease;
+    }
+    .hud-submsg {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin-bottom: 16px;
+      min-height: 38px;
+      transition: color 0.25s ease;
+    }
+    .hud-progress-section {
+      margin: 12px 0 16px;
+    }
+    .hud-progress-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .hud-timer-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-secondary);
+    }
+    .hud-timer-icon {
+      font-size: 13px;
+    }
+    .hud-timer-divider {
+      color: var(--border-color);
+      margin: 0 2px;
+    }
+    .hud-percent-tag {
+      color: var(--primary-pink);
+      font-size: 13px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .chopper-progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--soft-pink);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .chopper-progress-bar {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, var(--mascot-pink), var(--primary-pink));
+      border-radius: 9999px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hud-tip-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px 14px;
+      text-align: left;
+    }
+    .hud-tip-icon {
+      font-size: 18px;
+      line-height: 1.2;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .hud-tip-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .hud-tip-header {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--primary-pink);
+      margin-bottom: 2px;
+    }
+    .hud-tip-text {
+      font-size: 12px;
+      color: var(--text-dark);
+      line-height: 1.45;
+      transition: opacity 0.2s ease;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .pipeline-grid, .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .trust-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+    @media (max-width: 640px) {
+      .wrap {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .hero {
+        padding: 32px 0 48px;
+      }
+      .hero-title {
+        font-size: 32px;
+        line-height: 1.15;
+      }
+      .terminal-card {
+        padding: 18px 14px;
+      }
+      .tab-row {
+        width: 100%;
+        display: flex;
+      }
+      .tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 8px 6px;
+        font-size: 12px;
+      }
+      .input-bar {
+        flex-direction: column;
+        border-radius: 12px;
+        padding: 8px;
+        gap: 8px;
+      }
+      .stream-input {
+        width: 100%;
+        padding: 8px 6px;
+        font-size: 13px;
+      }
+      .btn-paste {
+        width: 100%;
+        height: 38px;
+        justify-content: center;
+      }
+      .btn-chop {
+        width: 100%;
+        height: 48px;
+        justify-content: center;
+      }
+      .duration-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .dur-pills {
+        width: 100%;
+        display: flex;
+      }
+      .dur-pill {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+        padding: 8px 4px;
+        font-size: 12px;
+      }
+      .sample-row {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .comparison-table {
+        min-width: 480px;
+      }
+      .trust-strip {
+        grid-template-columns: 1fr;
+      }
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+      .footer-divider {
+        display: none;
+      }
+      .modal-card, .info-modal-card {
+        padding: 20px 14px;
+        border-radius: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVIGATION -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a href="/" class="brand">
+        <img src="/assets/chopper-full-logo.png?v=3" alt="Chopper" class="brand-img">
+        <span class="brand-title">Chopper</span>
+        <span class="brand-tag">Studio</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#features" class="nav-link">Capabilities</a>
+        <a href="#benchmarks" class="nav-link">Architecture</a>
+      </nav>
+
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        100% LOCAL FFmpeg + WHISPER
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN HERO SECTION -->
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        
+        <!-- LEFT: STREAM INPUT TERMINAL -->
+        <div class="hero-copy">
+          <h1 class="hero-title">
+            Chop streams into <span class="highlight">viral vertical shorts</span>
+          </h1>
+          
+          <p class="hero-desc">
+            Transform hours of livestreams into ready-to-post 9:16 vertical shorts. Zero cloud delays, zero API subscriptions. Everything runs 100% on your machine with automated facecam framing and karaoke subtitles.
+          </p>
+
+          <!-- TERMINAL INPUT CARD -->
+          <div class="terminal-card">
+            <div class="tab-row" role="tablist">
+              <span class="tab-sliding-pill" id="tab-sliding-pill" aria-hidden="true"></span>
+              <button class="tab-btn is-active" id="tab-url" type="button" role="tab" aria-selected="true">
+                <i data-lucide="link-2" class="icon-sm"></i> <span>Paste Stream URL</span>
+              </button>
+              <button class="tab-btn" id="tab-file" type="button" role="tab">
+                <i data-lucide="upload" class="icon-sm"></i> <span>Upload Local VOD</span>
+              </button>
+              <input type="file" id="vod-file-input" accept="video/mp4,video/mkv,video/webm" style="display: none;">
+            </div>
+
+            <form id="chop-form">
+              <label class="input-label" for="stream-url-input">
+                YOUTUBE OR TWITCH STREAM URL
+              </label>
+              
+              <div class="input-bar">
+                <input 
+                  type="url" 
+                  id="stream-url-input" 
+                  class="stream-input" 
+                  placeholder="https://www.youtube.com/watch?v=... or Twitch VOD" 
+                  autocomplete="off" 
+                  spellcheck="false"
+                  required
+                >
+                <button type="button" class="btn-paste" id="btn-paste-clip">
+                  <i data-lucide="clipboard" class="icon-sm"></i> <span>Paste</span>
+                </button>
+                <button type="submit" class="btn-chop" id="btn-submit-chop">
+                  <img src="/assets/chopper-character.png" alt="" class="btn-mascot-emoji">
+                  <span>CHOP STREAM</span>
+                </button>
+              </div>
+
+              <!-- DURATION SELECTOR -->
+              <div class="duration-row">
+                <span class="duration-title">Target Duration:</span>
+                <div class="dur-pills" id="dur-pills-bar">
+                  <span class="dur-sliding-pill" id="dur-sliding-pill" aria-hidden="true"></span>
+                  <button type="button" class="dur-pill" data-dur="30">30s Short</button>
+                  <button type="button" class="dur-pill is-active" data-dur="45">45s Standard</button>
+                  <button type="button" class="dur-pill" data-dur="60">60s Long</button>
+                </div>
+              </div>
+
+              <!-- INSTANT SAMPLE STREAMS -->
+              <div class="sample-row">
+                <span class="sample-label">Try instant sample:</span>
+                <button type="button" class="sample-chip" data-sample="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                  <i data-lucide="flame" class="icon-sm"></i> <span>Viral Livestream</span>
+                </button>
+                <button type="button" class="sample-chip" data-sample="https://www.youtube.com/watch?v=OIeLbmyraRQ">
+                  <i data-lucide="gamepad-2" class="icon-sm"></i> <span>GTA RP Heist</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- TRUST METRICS -->
+          <div class="trust-strip">
+            <div class="trust-item">
+              <div class="trust-val">1080P</div>
+              <div class="trust-lbl">Full HD Vertical</div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-val">0.0s</div>
+              <div class="trust-lbl">Cloud Upload Wait</div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-val">$0.00</div>
+              <div class="trust-lbl">Zero API Fees</div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-val">60 FPS</div>
+              <div class="trust-lbl">Hardware Encoded</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: CHOPPER STUDIO SHOWCASE -->
+        <div class="showcase-wrapper">
+          <div class="showcase-header">
+            <div class="showcase-badge">
+              <span class="showcase-dot"></span>
+              Chopper Live Frame Engine
+            </div>
+            <div class="showcase-meta">
+              FPS: 60 · 1080x1920
+            </div>
+          </div>
+
+          <!-- 9:16 LIVE VIDEO CANVAS -->
+          <div class="video-viewport">
+            <video 
+              id="showcase-video" 
+              src="/assets/showcase-vertical-1080p.mp4?v=2" 
+              poster="/assets/showcase-vertical-1080p-poster.jpg?v=2"
+              autoplay 
+              muted 
+              loop 
+              playsinline
+              preload="auto"
+            >
+              <source src="/assets/showcase-vertical-1080p.mp4?v=2" type="video/mp4">
+            </video>
+
+            <!-- OVERLAYS -->
+            <div class="hud-creator-tag">@MrBeast</div>
+            <div class="hud-hd-badge">1080P 60FPS</div>
+            <div class="hud-facecam-box">
+              <div class="hud-facecam-label"><i data-lucide="scan-face" class="icon-xs"></i> <span>FACECAM LOCKED</span></div>
+            </div>
+          </div>
+
+          <!-- AUDIO WAVEFORM VISUALIZER STRIP -->
+          <div class="waveform-strip">
+            <div class="waveform-header">
+              <span class="waveform-title">Acoustic & Heatmap Analyzer</span>
+              <span style="font-size: 11px; color: var(--warm-brown); font-weight: 800;">PEAK: 98.4 dB</span>
+            </div>
+            
+            <div class="waveform-bars">
+              <div class="wbar" style="height: 35%;"></div>
+              <div class="wbar" style="height: 45%;"></div>
+              <div class="wbar" style="height: 60%;"></div>
+              <div class="wbar is-peak" style="height: 100%;"></div>
+              <div class="wbar is-peak" style="height: 90%;"></div>
+              <div class="wbar" style="height: 40%;"></div>
+              <div class="wbar is-hype" style="height: 75%;"></div>
+              <div class="wbar is-hype" style="height: 85%;"></div>
+              <div class="wbar" style="height: 50%;"></div>
+              <div class="wbar" style="height: 30%;"></div>
+              <div class="wbar is-peak" style="height: 95%;"></div>
+              <div class="wbar" style="height: 45%;"></div>
+              <div class="wbar" style="height: 65%;"></div>
+              <div class="wbar is-hype" style="height: 80%;"></div>
+              <div class="wbar" style="height: 40%;"></div>
+              <div class="wbar" style="height: 25%;"></div>
+            </div>
+
+            <div class="waveform-peaks">
+              <span class="peak-tag scream"><i data-lucide="flame" class="icon-xs"></i> <span>SCREAM PEAK (98%)</span></span>
+              <span class="peak-tag hype"><i data-lucide="trending-up" class="icon-xs"></i> <span>CHAT REPLAY SPIKE (94%)</span></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: 3-STEP PIPELINE -->
+    <section class="sec-pipeline" id="how-it-works">
+      <div class="wrap">
+        <div class="sec-heading">
+          <h2 class="sec-title">How Chopper Works in 3 Steps</h2>
+          <p class="sec-desc">
+            Traditional tools force you to upload 20GB video files to remote servers and wait for hours. Chopper executes the entire pipeline directly on your GPU and CPU.
+          </p>
+        </div>
+
+        <div class="pipeline-grid">
+          
+          <div class="pipeline-card">
+            <div class="step-num">01</div>
+            <h3 class="step-title">Acoustic & Replay Ingestion</h3>
+            <p class="step-body">
+              Chopper scans the audio track for loud transients, sudden decibel spikes, laughter bursts, and high-energy chat moments from YouTube's replay heatmap.
+            </p>
+            <span class="step-pill"><i data-lucide="audio-lines" class="icon-sm"></i> <span>Audio Peak Detection</span></span>
+          </div>
+
+          <div class="pipeline-card">
+            <div class="step-num">02</div>
+            <h3 class="step-title">Neural Facecam Framing</h3>
+            <p class="step-body">
+              Computer vision automatically locates the streamer's camera box, isolates the streamer, and cleanly stacks it above high-resolution 1080p gameplay.
+            </p>
+            <span class="step-pill"><i data-lucide="smartphone" class="icon-sm"></i> <span>Smart 9:16 Aspect Conversion</span></span>
+          </div>
+
+          <div class="pipeline-card">
+            <div class="step-num">03</div>
+            <h3 class="step-title">Whisper Subtitles & Export</h3>
+            <p class="step-body">
+              Local Whisper AI produces word-by-word timestamps, rendered into vibrant kinetic karaoke captions designed to maximize viewer retention on TikTok and Reels.
+            </p>
+            <span class="step-pill"><i data-lucide="captions" class="icon-sm"></i> <span>Retention-Engine Captions</span></span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: FEATURES GRID -->
+    <section class="sec-features" id="features">
+      <div class="wrap">
+        <div class="sec-heading">
+          <h2 class="sec-title">Built for Modern Streamers</h2>
+          <p class="sec-desc">
+            Everything an agency editor or solo creator needs to turn 4-hour livestreams into a week's worth of viral TikToks and YouTube Shorts.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          
+          <div class="feat-card">
+            <h3 class="feat-title"><span class="feat-glyph"><i data-lucide="shield-check" class="icon-lg"></i></span> 100% Private & Local</h3>
+            <p class="feat-desc">
+              Your stream video files never touch third-party servers. All processing, neural tracking, and subtitle models run strictly on your local PC.
+            </p>
+          </div>
+
+          <div class="feat-card">
+            <h3 class="feat-title"><span class="feat-glyph"><i data-lucide="layers" class="icon-lg"></i></span> Multi-Batch Generation</h3>
+            <p class="feat-desc">
+              Produce 3, 6, or 9 viral clips simultaneously. Click "Generate More" to slice deeper into your stream's highest scoring moments.
+            </p>
+          </div>
+
+          <div class="feat-card">
+            <h3 class="feat-title"><span class="feat-glyph"><i data-lucide="scan-face" class="icon-lg"></i></span> Auto Facecam Cropping</h3>
+            <p class="feat-desc">
+              No manual masks or tedious timeline keyframes. Chopper locates your facecam border and pins it automatically above the gameplay.
+            </p>
+          </div>
+
+          <div class="feat-card">
+            <h3 class="feat-title"><span class="feat-glyph"><i data-lucide="subtitles" class="icon-lg"></i></span> Active Karaoke Subtitles</h3>
+            <p class="feat-desc">
+              Word-by-word animated highlights in bright high-contrast colors keep viewers engaged throughout the entire clip.
+            </p>
+          </div>
+
+          <div class="feat-card">
+            <h3 class="feat-title"><span class="feat-glyph"><i data-lucide="cpu" class="icon-lg"></i></span> Hardware Acceleration</h3>
+            <p class="feat-desc">
+              Leverages NVIDIA NVENC, Intel QSV, Apple Silicon, and multi-core CPU rendering for sub-minute 1080p 60FPS video exports.
+            </p>
+          </div>
+
+          <div class="feat-card">
+            <h3 class="feat-title"><span class="feat-glyph"><i data-lucide="circle-dollar-sign" class="icon-lg"></i></span> Zero API Costs</h3>
+            <p class="feat-desc">
+              No subscription paywalls, no watermarks, and no monthly minute quotas. Unlimited clips directly on your hardware.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: BENCHMARK TABLE -->
+    <section class="sec-comparison" id="benchmarks">
+      <div class="wrap">
+        <div class="sec-heading">
+          <h2 class="sec-title">Chopper vs Cloud Clippers</h2>
+          <p class="sec-desc">
+            Why modern creators prefer local clipping over cloud-based SaaS tools.
+          </p>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>Feature / Metric</th>
+                <th class="col-highlight">CHOPPER (Local)</th>
+                <th>Opus Clip / Cloud Tools</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Upload Latency</td>
+                <td class="col-highlight">0 Seconds (Instant)</td>
+                <td>15 to 45 Minutes (Uploading 20GB VODs)</td>
+              </tr>
+              <tr>
+                <td>Monthly Cost</td>
+                <td class="col-highlight">$0 (Completely Free)</td>
+                <td>$19 to $49 per Month</td>
+              </tr>
+              <tr>
+                <td>Data Privacy</td>
+                <td class="col-highlight">100% On-Device</td>
+                <td>Sent to third-party cloud servers</td>
+              </tr>
+              <tr>
+                <td>Video Quality</td>
+                <td class="col-highlight">1080x1920 60FPS (Full HD)</td>
+                <td>Often limited to 720p 30FPS on free tiers</td>
+              </tr>
+              <tr>
+                <td>Watermarks</td>
+                <td class="col-highlight">Zero Watermarks</td>
+                <td>Mandatory branding on free plans</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap">
+      <img src="/assets/chopper-full-logo.png?v=3" alt="Chopper Logo" class="footer-logo">
+      <div class="footer-brand">Chopper Studio</div>
+      <p class="footer-desc">
+        Cute, automated, and 100% local stream clipping for modern creators.
+      </p>
+      <div class="footer-links">
+        <button type="button" class="footer-link-btn" id="privacy-btn">Privacy Policy</button>
+        <span class="footer-divider">·</span>
+        <button type="button" class="footer-link-btn" id="terms-btn">Terms of Service</button>
+        <span class="footer-divider">·</span>
+        <a href="#how-it-works" class="footer-link">How It Works</a>
+        <span class="footer-divider">·</span>
+        <a href="#features" class="footer-link">Features</a>
+      </div>
+      <p class="footer-copy">
+        100% On-Device Processing · Zero Cloud Video Uploads · Powered by FFmpeg, Whisper AI & OpenCV.
+      </p>
+    </div>
+  </footer>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="modal-overlay" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
+    <div class="info-modal-card">
+      <div class="info-modal-head">
+        <h2 class="info-modal-title" id="privacy-modal-title">Privacy Policy</h2>
+        <button type="button" class="modal-close" id="privacy-close" aria-label="Close dialog" title="Close"><i data-lucide="x" class="icon-md"></i></button>
+      </div>
+      <div class="info-modal-body">
+        <p><strong>Last Updated: November 2026</strong></p>
+        <p>Chopper is built from the ground up on an <strong>on-device privacy architecture</strong>. We believe creators should maintain full ownership and confidentiality over their raw footage, audio streams, and generated clips.</p>
+        
+        <h3>1. Zero Cloud Media Storage</h3>
+        <p>All video decoding, facecam tracking, audio spike detection, speech transcription, and 1080p rendering run 100% locally on your machine. Your raw stream footage and rendered clips are never transmitted to external cloud servers or third-party AI training pipelines.</p>
+
+        <h3>2. Local Model Execution</h3>
+        <p>Whisper AI speech recognition and OpenCV computer vision models execute in your local runtime. Transcripts and word alignments never leave your device.</p>
+
+        <h3>3. Data Retention & Deletion</h3>
+        <p>Temporary processing files are stored in your local application directory and can be purged at any time. Chopper does not track your viewing habits or resell creator analytics.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS OF SERVICE MODAL -->
+  <div class="modal-overlay" id="terms-modal" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+    <div class="info-modal-card">
+      <div class="info-modal-head">
+        <h2 class="info-modal-title" id="terms-modal-title">Terms of Service</h2>
+        <button type="button" class="modal-close" id="terms-close" aria-label="Close dialog" title="Close"><i data-lucide="x" class="icon-md"></i></button>
+      </div>
+      <div class="info-modal-body">
+        <p><strong>Last Updated: November 2026</strong></p>
+        <p>By using Chopper, you agree to these clear and honest terms:</p>
+        
+        <h3>1. Usage & Content Rights</h3>
+        <p>You retain 100% ownership of all clips, audio, and content you produce using Chopper. You are responsible for ensuring you have appropriate rights to the stream content you clip.</p>
+
+        <h3>2. Local Processing Software</h3>
+        <p>Chopper is provided as local creator software. Since processing happens entirely on your hardware, performance and render times depend on your local CPU and GPU specifications.</p>
+
+        <h3>3. Acceptable Use</h3>
+        <p>You agree not to use Chopper to generate content that violates third-party intellectual property or platform community guidelines.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESSING HUD MODAL (CHOPPER LOADER) -->
+  <div class="hud-overlay" id="hud-overlay" role="dialog" aria-modal="true" aria-labelledby="hud-title">
+    <div class="hud-box">
+      <div class="chopper-loader-frame">
+        <video 
+          id="chopper-loader-video" 
+          class="chopper-loader-video" 
+          playsinline 
+          autoplay 
+          muted 
+          loop 
+          preload="auto" 
+          poster="/assets/chopper-loader-poster.jpg">
+          <source src="/assets/chopper-loader.mp4" type="video/mp4">
+        </video>
+        <img 
+          class="chopper-loader-poster" 
+          src="/assets/chopper-loader-poster.jpg" 
+          alt="Chopper is working on your stream">
+        <div class="chopper-loader-badge">
+          <span class="chopper-loader-dot"></span>
+          <span>Chopper is working</span>
+        </div>
+      </div>
+      <div class="hud-msg" id="hud-title">Ingesting Stream Video & Container...</div>
+      <div class="hud-submsg" id="hud-desc">Verifying video format, decoding MP4/MKV stream and inspecting frame headers...</div>
+
+      <!-- DYNAMIC ROTATING CREATOR INSIGHT -->
+      <div class="hud-tip-box" id="hud-tip-box">
+        <div class="hud-tip-icon"><i data-lucide="lightbulb" class="icon-md"></i></div>
+        <div class="hud-tip-body">
+          <div class="hud-tip-header">CHOPPER CREATOR INSIGHT</div>
+          <div class="hud-tip-text" id="hud-tip-text">The first 3 seconds decide 70% of viral retention. Chopper hooks the viewer right from frame 1.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATCH CLIPS OUTPUT MODAL -->
+  <div class="modal-overlay" id="batch-modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h2 class="modal-title" id="batch-modal-title">CHOPPER · 3 Clips Ready</h2>
+          <p style="font-size: 13px; color: var(--primary-pink); font-weight: 700; margin-top: 4px;" id="batch-stream-title">Live Stream</p>
+        </div>
+        <button type="button" class="modal-close" id="batch-close" aria-label="Close modal" title="Close"><i data-lucide="x" class="icon-md"></i></button>
+      </div>
+
+      <div class="clips-grid" id="batch-clips-container">
+        <!-- Rendered clip cards will appear here -->
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <button type="button" class="btn-chop" id="batch-more-btn" style="margin: 0 auto; display: inline-flex;">
+          <i data-lucide="plus-circle" class="icon-md"></i> <span>GENERATE 3 MORE CLIPS (BATCH 02)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script type="module">
+    import { ChopperLoaderComponent } from '/chopper-loader.js';
+    // Minimal Sonner-compliant toast implementation
+    const toastContainer = document.createElement('div');
+    toastContainer.className = 'sonner-container';
+    toastContainer.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999999;display:flex;flex-direction:column-reverse;gap:10px;pointer-events:none;';
+    document.body.appendChild(toastContainer);
+
+    window.toast = {
+      show(msg, type = 'info') {
+        const t = document.createElement('div');
+        t.style.cssText = `
+          pointer-events: auto;
+          background: #FFFEFA;
+          border: 1.5px solid ${type === 'success' ? '#D92662' : type === 'error' ? '#B81D52' : '#F1DFE3'};
+          color: #292326;
+          padding: 12px 18px;
+          border-radius: 12px;
+          font-size: 13px;
+          font-weight: 700;
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          opacity: 0;
+          transform: translateY(var(--toast-distance, 16px)) scale(var(--toast-scale, 0.97));
+          filter: blur(var(--toast-blur, 2px));
+          transition:
+            opacity var(--toast-open, 350ms) var(--toast-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+            transform var(--toast-open, 350ms) var(--toast-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+            filter var(--toast-open, 350ms) var(--toast-ease, cubic-bezier(0.22, 1, 0.36, 1));
+          will-change: transform, opacity, filter;
+        `;
+        requestAnimationFrame(() => {
+          t.style.opacity = '1';
+          t.style.transform = 'translateY(0) scale(1)';
+          t.style.filter = 'blur(0)';
+        });
+        const icons = {
+          success: `<svg class="lucide icon-sm" viewBox="0 0 24 24" fill="none" stroke="#AF134A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+          error: `<svg class="lucide icon-sm" viewBox="0 0 24 24" fill="none" stroke="#AF134A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`,
+          info: `<svg class="lucide icon-sm" viewBox="0 0 24 24" fill="none" stroke="#AF134A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`
+        };
+        const iconSvg = icons[type] || icons.info;
+        t.innerHTML = `<span>${iconSvg}</span> <span>${msg}</span>`;
+        toastContainer.appendChild(t);
+        setTimeout(() => {
+          t.style.transition = `
+            opacity var(--toast-close, 250ms) var(--toast-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+            transform var(--toast-close, 250ms) var(--toast-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+            filter var(--toast-close, 250ms) var(--toast-ease, cubic-bezier(0.22, 1, 0.36, 1))
+          `;
+          t.style.opacity = '0';
+          t.style.transform = 'translateY(12px) scale(0.98)';
+          t.style.filter = 'blur(2px)';
+          setTimeout(() => t.remove(), 250);
+        }, 3500);
+      },
+      success(msg) { this.show(msg, 'success'); },
+      error(msg) { this.show(msg, 'error'); },
+      info(msg) { this.show(msg, 'info'); }
+    };
+
+    // State
+    let currentTargetDuration = 45;
+    let currentBatchIndex = 1;
+    let currentStreamQuery = null;
+
+    // Transitions.dev Sliding Pill Helpers
+    const tabPill = document.getElementById('tab-sliding-pill');
+    const durPill = document.getElementById('dur-sliding-pill');
+
+    function syncSlidingPill(targetEl, pillEl, instant = false) {
+      if (!targetEl || !pillEl) return;
+      if (instant) pillEl.style.transition = 'none';
+      pillEl.style.transform = `translateX(${targetEl.offsetLeft}px)`;
+      pillEl.style.width = `${targetEl.offsetWidth}px`;
+      if (instant) {
+        pillEl.offsetHeight;
+        pillEl.style.transition = '';
+      }
+    }
+
+    // Modal close helper with transitions.dev open/close asymmetry
+    function closeModalWithTransition(modalEl) {
+      if (!modalEl || !modalEl.classList.contains('is-open')) return;
+      modalEl.classList.remove('is-open');
+      modalEl.classList.add('is-closing');
+      setTimeout(() => {
+        modalEl.classList.remove('is-closing');
+      }, 150);
+    }
+    // Elements
+    const form = document.getElementById('chop-form');
+    const urlInput = document.getElementById('stream-url-input');
+    const submitBtn = document.getElementById('btn-submit-chop');
+    const pasteBtn = document.getElementById('btn-paste-clip');
+    const tabUrl = document.getElementById('tab-url');
+    const tabFile = document.getElementById('tab-file');
+    const fileInput = document.getElementById('vod-file-input');
+    const durPills = document.querySelectorAll('.dur-pill');
+    const sampleChips = document.querySelectorAll('.sample-chip');
+
+    const hudOverlay = document.getElementById('hud-overlay');
+    const hudTitle = document.getElementById('hud-title');
+    const hudDesc = document.getElementById('hud-desc');
+
+    const batchModal = document.getElementById('batch-modal');
+    const batchClose = document.getElementById('batch-close');
+    const batchTitle = document.getElementById('batch-modal-title');
+    const batchStreamTitle = document.getElementById('batch-stream-title');
+    const batchContainer = document.getElementById('batch-clips-container');
+    const batchMoreBtn = document.getElementById('batch-more-btn');
+
+    // Tab Switcher
+    tabUrl.addEventListener('click', () => {
+      tabUrl.classList.add('is-active');
+      tabFile.classList.remove('is-active');
+      urlInput.placeholder = 'https://www.youtube.com/watch?v=... or Twitch VOD';
+      urlInput.focus();
+    });
+
+    tabFile.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    // Duration Pills
+    durPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        durPills.forEach(p => p.classList.remove('is-active'));
+        pill.classList.add('is-active');
+        currentTargetDuration = parseInt(pill.dataset.dur, 10);
+        toast.info(`Target duration set to ${currentTargetDuration}s`);
+      });
+    });
+
+    // Instant Sample Stream Chips
+    sampleChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        urlInput.value = chip.dataset.sample;
+        toast.success('Sample URL loaded into Chopper!');
+        submitBtn.focus();
+      });
+    });
+
+    // Paste from Clipboard
+    pasteBtn.addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          urlInput.value = text;
+          toast.success('Pasted from clipboard!');
+        }
+      } catch (err) {
+        toast.error('Clipboard access denied');
+      }
+    });
+
+    // 10+ MINUTE CONTINUOUS PIPELINE STAGES (Covers 0s to 720s+)
+    const PIPELINE_STAGES = [
+      { sec: 0, title: 'Ingesting Stream Video & Container...', desc: 'Verifying video stream, demuxing container, and inspecting keyframe cadence...', pct: 6, step: 'Stream Ingest' },
+      { sec: 7, title: 'Demuxing Video & Audio Streams...', desc: 'Extracting stereo audio tracks and mapping AAC streams for high-speed analysis...', pct: 10, step: 'Demuxing Audio' },
+      { sec: 15, title: 'Acoustic Frequency & Decibel Scanning...', desc: 'Running Fast Fourier Transform (FFT) across stream audio to measure decibel loudness curves...', pct: 14, step: 'FFT Audio Analysis' },
+      { sec: 24, title: 'Detecting High-Energy Reaction Spikes...', desc: 'Filtering shouting, screaming, sudden laughter, and streamer microphone peaks...', pct: 18, step: 'Reaction Peak Detection' },
+      { sec: 34, title: 'Cross-Referencing Replay Heatmap...', desc: 'Correlating chat activity spikes and high-rewind clusters across the stream timeline...', pct: 23, step: 'Heatmap Clustering' },
+      { sec: 45, title: 'Scoring Top Viral Highlight Candidates...', desc: 'Ranking clip candidates using acoustic energy density and pace transitions...', pct: 28, step: 'Candidate Scoring' },
+      { sec: 57, title: 'Isolating Best 3 Highlight Windows...', desc: 'Selecting the 3 highest-impact clips with punchy intro hooks and natural payoff endings...', pct: 33, step: 'Window Selection' },
+      { sec: 70, title: 'Initializing Computer Vision Engine...', desc: 'Loading OpenCV cascade & deep learning models to track gameplay and streamer regions...', pct: 38, step: 'Vision Initialization' },
+      { sec: 84, title: 'Scanning Frames for Streamer Facecam...', desc: 'Detecting facial landmarks, eye contours, and streamer camera bounding box coordinates...', pct: 43, step: 'Facecam Detection' },
+      { sec: 99, title: 'Locking Facecam & Framing Coordinates...', desc: 'Computing optimal facecam center coordinates and smoothing pan transitions...', pct: 47, step: 'Facecam Tracking' },
+      { sec: 115, title: 'Detecting Gameplay Screen Region...', desc: 'Analyzing center gameplay action vectors and HUD elements to prevent UI cropping...', pct: 51, step: 'Gameplay Tracking' },
+      { sec: 132, title: 'Computing 9:16 Vertical Crop Geometry...', desc: 'Building dual-zone composition layout: facecam at top and gameplay at bottom...', pct: 55, step: '9:16 Split Geometry' },
+      { sec: 150, title: 'Resampling Audio for Speech Recognition...', desc: 'Normalizing audio stream to 16,000Hz mono WAV for neural transcription models...', pct: 59, step: 'Audio Resampling' },
+      { sec: 169, title: 'Loading OpenAI Whisper Neural Engine...', desc: 'Warming acoustic tokenizers and sequence-to-sequence transformer speech model...', pct: 62, step: 'Whisper AI Engine' },
+      { sec: 189, title: 'Transcribing Stream Audio (Pass 1)...', desc: 'Converting speech to text, recognizing slang, gaming terminology, and streamer banter...', pct: 65, step: 'Neural Speech-to-Text' },
+      { sec: 210, title: 'Aligning Word-Level Microsecond Timestamps...', desc: 'Extracting exact start and end millisecond boundaries for every spoken word...', pct: 68, step: 'Acoustic Alignment' },
+      { sec: 232, title: 'Filtering Speech Artifacts & Background Noise...', desc: 'Removing filler words, mic breathing, and game sound bleed from subtitle tracks...', pct: 71, step: 'Audio Cleanup' },
+      { sec: 255, title: 'Synthesizing Kinetic Karaoke Typography...', desc: 'Generating dynamic animated subtitles with bold modern typography and high-contrast drop shadows...', pct: 74, step: 'Karaoke Engine' },
+      { sec: 279, title: 'Highlighting High-Energy Punch Words...', desc: 'Coloring emphasis words in vibrant yellow & Chopper pink to maximize viewer hook retention...', pct: 77, step: 'Word Highlighting' },
+      { sec: 304, title: 'Calculating Mobile UI Safe Zones...', desc: 'Adjusting subtitle positioning to stay clear of TikTok, Reels, and Shorts UI buttons...', pct: 80, step: 'Safe Zone Layout' },
+      { sec: 330, title: 'Building Multi-Layer Video Render Graph...', desc: 'Assembling FFmpeg filter graph: split-screen scaling, ambient background blur, and border mask...', pct: 82, step: 'Filter Graph Assembly' },
+      { sec: 357, title: 'Rendering Clip 01 · 1080x1920 60FPS...', desc: 'Multi-core hardware-accelerated H.264 rendering with high-profile YUV420p color precision...', pct: 84, step: 'Rendering Clip 01' },
+      { sec: 385, title: 'Burn-in Karaoke Captions (Clip 01)...', desc: 'Rasterizing crisp vector font glyphs and applying word-by-word animation keyframes...', pct: 86, step: 'Subtitle Compositing' },
+      { sec: 414, title: 'Mastering Clip 01 Audio Stream...', desc: 'Applying dynamic range compression and loudness normalization to -14 LUFS standard...', pct: 88, step: 'Audio Mastering' },
+      { sec: 444, title: 'Rendering Clip 02 · 1080x1920 60FPS...', desc: 'Encoding high-bitrate vertical video frames and synchronizing streamer facecam crop...', pct: 90, step: 'Rendering Clip 02' },
+      { sec: 475, title: 'Burn-in Karaoke Captions (Clip 02)...', desc: 'Synthesizing dynamic word pop effects and calibrating caption reading speed...', pct: 91, step: 'Subtitle Compositing' },
+      { sec: 507, title: 'Mastering Clip 02 Audio Stream...', desc: 'Balancing voice clarity against in-game explosions and background music...', pct: 92, step: 'Audio Mastering' },
+      { sec: 540, title: 'Rendering Clip 03 · 1080x1920 60FPS...', desc: 'Encoding final vertical video stream with buttery-smooth 60 frames per second...', pct: 93, step: 'Rendering Clip 03' },
+      { sec: 574, title: 'Burn-in Karaoke Captions (Clip 03)...', desc: 'Rendering stylized text outlines and finalizing word highlighting...', pct: 94, step: 'Subtitle Compositing' },
+      { sec: 609, title: 'Mastering Clip 03 Audio Stream...', desc: 'Applying final audio limiter to prevent distortion on mobile speakers...', pct: 95, step: 'Audio Mastering' },
+      { sec: 645, title: 'Optimizing MP4 FastStart for Mobile...', desc: 'Moving MP4 moov atom to the front of files for instant playback without buffering...', pct: 96, step: 'FastStart Optimization' },
+      { sec: 682, title: 'Verifying Bitrate & Stream Integrity...', desc: 'Validating video frame consistency, audio sync, and container headers...', pct: 97, step: 'Integrity Check' },
+      { sec: 720, title: 'Packaging Ready-to-Download Batch...', desc: 'Finalizing 3 vertical clips in exports folder and generating interactive player cards...', pct: 98, step: 'Packaging Batch' }
+    ];
+
+    // ROTATING CREATOR INSIGHTS (Changes every 7.5 seconds)
+    const CREATOR_TIPS = [
+      "The first 3 seconds decide 70% of viral retention. Chopper hooks the viewer right from frame 1.",
+      "Subtitled vertical shorts increase audience retention by over 55% on mobile devices.",
+      "Over 75% of mobile viewers browse with sound off initially. Crisp karaoke subtitles keep them engaged.",
+      "Split-screen facecam + gameplay layout is proven to boost viewer emotional connection by 2.4x.",
+      "YouTube Shorts algorithm prioritizes videos with high average percentage viewed (APV > 80%).",
+      "Adding colored emphasis to punch words helps guide the viewer's eyes and speeds up reading cadence.",
+      "1080x1920 at 60FPS gives smooth gameplay motion that stands out against low-bitrate competitor clips.",
+      "All clips are rendered 100% locally on your machine with zero cloud compression and complete privacy.",
+      "Keep your short titles under 50 characters with a strong curiosity gap for highest click-through rate.",
+      "Posting 2-3 vertical shorts per day on TikTok and Reels is the sweet spot for rapid channel growth.",
+      "Replay heatmaps pinpoint where thousands of viewers rewound or shared during the live stream.",
+      "Audio normalization to -14 LUFS prevents your video from sounding quiet next to trending TikTok sounds.",
+      "High energy spikes in voice decibels correlate directly with genuine streamer reactions.",
+      "Word-by-word karaoke animation creates a rhythmic visual pulse that prevents swipe-aways.",
+      "Centering facecam in the upper half leaves the bottom half free for subtitles and gameplay action.",
+      "Clips between 30 and 45 seconds have the highest completion rate across both Instagram Reels and Shorts.",
+      "Consistent branding and color cues make viewers recognize your clips instantly on their feed.",
+      "Chopper extracts non-destructive cuts directly from source frames for maximum visual sharpness.",
+      "Keep subtitles in the middle third of the vertical screen to avoid platform UI button overlays.",
+      "Strong emotional payoff at the end of a clip leads to 3x more comments and shares.",
+      "Shorts with fast pacing and zero dead air have 40% higher replay rates.",
+      "Chopper's AI Whisper engine automatically handles gaming slang, shouting, and fast banter.",
+      "Facecam detection locks onto the streamer even when they move or lean back during intense moments.",
+      "Using full HD 1080p source prevents blurry compression artifacts on high-resolution smartphone screens.",
+      "Batch clipping lets you turn a single 2-hour gaming stream into a week's worth of viral daily content.",
+      "Ending your clip right after the punchline or climax encourages viewers to loop it a second time.",
+      "Contrast is king: high-contrast text outlines ensure readability over both dark and bright game scenes.",
+      "Chopper organizes all finished MP4 files cleanly in your local exports directory with instant zero-loss downloads."
+    ];
+
+    // REUSABLE CHOPPER LOADER COMPONENT
+    const ChopperLoader = {
+      overlay: document.getElementById('hud-overlay'),
+      video: document.getElementById('chopper-loader-video'),
+      title: document.getElementById('hud-title'),
+      desc: document.getElementById('hud-desc'),
+      bar: document.getElementById('chopper-progress-bar'),
+      timerCount: document.getElementById('hud-timer-count'),
+      stepCount: document.getElementById('hud-step-count'),
+      percentText: document.getElementById('hud-percent-text'),
+      tipText: document.getElementById('hud-tip-text'),
+      timerInterval: null,
+      tipInterval: null,
+      elapsedSeconds: 0,
+      tipIndex: 0,
+
+      show(initialTitle, initialDesc) {
+        this.clearTimers();
+        this.elapsedSeconds = 0;
+        this.tipIndex = 0;
+
+        if (this.title) this.title.textContent = initialTitle || PIPELINE_STAGES[0].title;
+        if (this.desc) this.desc.textContent = initialDesc || PIPELINE_STAGES[0].desc;
+        if (this.bar) this.bar.style.width = '6%';
+        if (this.percentText) this.percentText.textContent = '6%';
+        if (this.stepCount) this.stepCount.textContent = PIPELINE_STAGES[0].step;
+        if (this.timerCount) this.timerCount.textContent = '00:00';
+        if (this.tipText) this.tipText.textContent = CREATOR_TIPS[0];
+
+        if (this.overlay) this.overlay.classList.add('is-open');
+
+        // Play Chopper video safely (muted, inline, loop)
+        if (this.video) {
+          this.video.currentTime = 0;
+          const p = this.video.play();
+          if (p && typeof p.catch === 'function') {
+            p.catch(() => {});
+          }
+        }
+
+        // Live 1-Second Precision Timer & Stage Progression
+        this.timerInterval = setInterval(() => {
+          this.elapsedSeconds++;
+          const mins = Math.floor(this.elapsedSeconds / 60).toString().padStart(2, '0');
+          const secs = (this.elapsedSeconds % 60).toString().padStart(2, '0');
+          if (this.timerCount) this.timerCount.textContent = `${mins}:${secs}`;
+
+          // Find current stage for elapsed time
+          let activeStage = PIPELINE_STAGES[0];
+          for (let i = 0; i < PIPELINE_STAGES.length; i++) {
+            if (this.elapsedSeconds >= PIPELINE_STAGES[i].sec) {
+              activeStage = PIPELINE_STAGES[i];
+            } else {
+              break;
+            }
+          }
+
+          if (this.elapsedSeconds <= 720) {
+            if (this.title && (!initialTitle || this.elapsedSeconds > 5)) this.title.textContent = activeStage.title;
+            if (this.desc && (!initialDesc || this.elapsedSeconds > 5)) this.desc.textContent = activeStage.desc;
+            if (this.stepCount) this.stepCount.textContent = activeStage.step;
+            if (this.bar) this.bar.style.width = `${activeStage.pct}%`;
+            if (this.percentText) this.percentText.textContent = `${activeStage.pct}%`;
+          } else {
+            // Extended 10+ minute procedural stages
+            const extraPass = Math.floor((this.elapsedSeconds - 720) / 20) + 1;
+            const extraPct = Math.min(99, 98 + (((this.elapsedSeconds - 720) % 20) / 20));
+            if (this.title) this.title.textContent = `Polishing Video Stream (Pass ${extraPass})...`;
+            if (this.desc) this.desc.textContent = 'Validating multi-channel audio tracks, keyframe indices, and final package buffers...';
+            if (this.stepCount) this.stepCount.textContent = `Pass ${extraPass} Finalizing`;
+            if (this.bar) this.bar.style.width = `${extraPct.toFixed(0)}%`;
+            if (this.percentText) this.percentText.textContent = `${extraPct.toFixed(0)}%`;
+          }
+        }, 1000);
+
+        // Rotating Creator Insights every 7.5 seconds
+        this.tipInterval = setInterval(() => {
+          this.tipIndex = (this.tipIndex + 1) % CREATOR_TIPS.length;
+          if (this.tipText) {
+            this.tipText.style.opacity = '0.2';
+            setTimeout(() => {
+              this.tipText.textContent = CREATOR_TIPS[this.tipIndex];
+              this.tipText.style.opacity = '1';
+            }, 180);
+          }
+        }, 7500);
+      },
+
+      hide() {
+        this.clearTimers();
+        if (this.overlay) this.overlay.classList.remove('is-open');
+        if (this.video) {
+          this.video.pause();
+        }
+        if (this.bar) this.bar.style.width = '6%';
+      },
+
+      clearTimers() {
+        if (this.timerInterval) {
+          clearInterval(this.timerInterval);
+          this.timerInterval = null;
+        }
+        if (this.tipInterval) {
+          clearInterval(this.tipInterval);
+          this.tipInterval = null;
+        }
+      }
+    };
+
+    // Backward-compatible HUD Helpers
+    function showHUD(title, desc, stages = []) {
+      ChopperLoader.show(title, desc, stages);
+    }
+
+    function hideHUD() {
+      ChopperLoader.hide();
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    // Render Batch Clips Modal
+    function renderClips(streamTitle, clips, append = false) {
+      if (!append) {
+        batchContainer.innerHTML = '';
+      }
+      batchStreamTitle.textContent = streamTitle || 'Live Stream';
+      batchTitle.textContent = `CHOPPER · ${clips.length} Clips Ready`;
+
+      clips.forEach((clip, idx) => {
+        const clipNum = clip.clip_num || (idx + 1);
+        const card = document.createElement('div');
+        card.className = 'clip-card';
+        card.innerHTML = `
+          <div class="clip-media">
+            <video src="${clip.video_url}" controls playsinline preload="metadata"></video>
+          </div>
+          <div class="clip-info">
+            <div class="clip-tag">CLIP 0${clipNum} · 1080x1920 FULL HD</div>
+            <div class="clip-time">${formatTime(clip.start)} to ${formatTime(clip.end)} (${clip.duration}s) · 60FPS</div>
+            <a href="${clip.video_url}" download="${clip.filename}" class="btn-download">
+              <i data-lucide="download" class="icon-sm"></i>
+              <span>DOWNLOAD 1080P MP4</span>
+            </a>
+          </div>
+        `;
+        batchContainer.appendChild(card);
+      });
+
+      batchModal.classList.add('is-open');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    // Submit Form (Stream URL)
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const url = urlInput.value.trim();
+      if (!url) return;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<img src="/assets/chopper-character.png" alt="" class="btn-mascot-emoji"> <span>CHOPPING...</span>';
+      currentBatchIndex = 1;
+      currentStreamQuery = { url, duration: currentTargetDuration, count: 3, batch_index: 1 };
+
+      showHUD(
+        'Ingesting Stream Video & Container...',
+        'Verifying stream URL, demuxing streams, and inspecting audio channels...'
+      );
+
+      try {
+        const res = await fetch('/api/generate-batch-clips', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentStreamQuery)
+        });
+        const data = await res.json();
+        hideHUD();
+
+        if (data.success && data.clips && data.clips.length) {
+          renderClips(data.title, data.clips, false);
+          toast.success('3 Clips Ready!');
+        } else {
+          toast.error(data.detail || 'Could not find highlights in stream');
+        }
+      } catch (err) {
+        hideHUD();
+        toast.error('Failed to process stream link');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<img src="/assets/chopper-character.png" alt="" class="btn-mascot-emoji"> <span>CHOP STREAM</span>';
+      }
+    });
+
+    // File Upload Handling
+    fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      showHUD(
+        'Ingesting Video File...',
+        `Uploading ${file.name} to local engine...`
+      );
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const upRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const upData = await upRes.json();
+
+        if (upData.success) {
+          showHUD(
+            'Finding Your Best Moments...',
+            'Detecting loud reactions & gameplay peaks...'
+          );
+          currentBatchIndex = 1;
+          currentStreamQuery = { file_name: upData.file_name, duration: currentTargetDuration, count: 3, batch_index: 1 };
+
+          const res = await fetch('/api/generate-batch-clips', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(currentStreamQuery)
+          });
+          const data = await res.json();
+          hideHUD();
+
+          if (data.success && data.clips && data.clips.length) {
+            renderClips(data.title, data.clips, false);
+            toast.success('3 Clips Generated from VOD!');
+          } else {
+            toast.error('No clips could be sliced');
+          }
+        } else {
+          hideHUD();
+          toast.error('VOD upload failed');
+        }
+      } catch (err) {
+        hideHUD();
+        toast.error('Error during local VOD processing');
+      }
+    });
+
+    // More Clips Button Handler
+    batchMoreBtn.addEventListener('click', async () => {
+      currentBatchIndex += 1;
+      showHUD(
+        `Batch 0${currentBatchIndex}: Finding Next Highlights...`,
+        'Scanning subsequent high-energy reaction clusters in the timeline...'
+      );
+
+      try {
+        const res = await fetch('/api/generate-batch-clips', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...currentStreamQuery,
+            batch_index: currentBatchIndex,
+            count: 3
+          })
+        });
+        const data = await res.json();
+        hideHUD();
+
+        if (data.success && data.clips && data.clips.length) {
+          renderClips(data.title, data.clips, true);
+          toast.success(`Batch 0${currentBatchIndex} added!`);
+        } else {
+          toast.info('No more high-energy moments in this stream');
+        }
+      } catch (err) {
+        hideHUD();
+        toast.error('Failed to generate more clips');
+      }
+    });
+
+    // Modal Close
+    batchClose.addEventListener('click', () => {
+      closeModalWithTransition(batchModal);
+    });
+
+    // Privacy & Terms Modals
+    const privacyBtn = document.getElementById('privacy-btn');
+    const privacyModal = document.getElementById('privacy-modal');
+    const privacyClose = document.getElementById('privacy-close');
+    const termsBtn = document.getElementById('terms-btn');
+    const termsModal = document.getElementById('terms-modal');
+    const termsClose = document.getElementById('terms-close');
+
+    if (privacyBtn && privacyModal && privacyClose) {
+      privacyBtn.addEventListener('click', () => privacyModal.classList.add('is-open'));
+      privacyClose.addEventListener('click', () => closeModalWithTransition(privacyModal));
+    }
+
+    if (termsBtn && termsModal && termsClose) {
+      termsBtn.addEventListener('click', () => termsModal.classList.add('is-open'));
+      termsClose.addEventListener('click', () => closeModalWithTransition(termsModal));
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (batchModal.classList.contains('is-open')) closeModalWithTransition(batchModal);
+        if (privacyModal && privacyModal.classList.contains('is-open')) closeModalWithTransition(privacyModal);
+        if (termsModal && termsModal.classList.contains('is-open')) closeModalWithTransition(termsModal);
+      }
+    });
+    // Initialize sliding tabs and Lucide icons
+    window.addEventListener('load', () => {
+      const activeTab = document.querySelector('.tab-btn.is-active');
+      if (activeTab && tabPill) syncSlidingPill(activeTab, tabPill, true);
+      const activeDur = document.querySelector('.dur-pill.is-active');
+      if (activeDur && durPill) syncSlidingPill(activeDur, durPill, true);
+    });
+
+    window.addEventListener('resize', () => {
+      const activeTab = document.querySelector('.tab-btn.is-active');
+      if (activeTab && tabPill) syncSlidingPill(activeTab, tabPill, true);
+      const activeDur = document.querySelector('.dur-pill.is-active');
+      if (activeDur && durPill) syncSlidingPill(activeDur, durPill, true);
+    });
+
+
+    // ── GSAP HERO & SCROLL ENTRANCE CHOREOGRAPHY ──
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Hero entrance timeline (Original sequence preserved with snappy natural flow)
+        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+        tl.from(".nav", { yPercent: -100, autoAlpha: 0, duration: 0.28 })
+          .from(".hero-title", { y: 14, autoAlpha: 0, duration: 0.24 }, "-=0.12")
+          .from(".hero-desc", { y: 10, autoAlpha: 0, duration: 0.2 }, "-=0.1")
+          .from(".terminal-card", { y: 14, autoAlpha: 0, duration: 0.25 }, "-=0.12")
+          .from(".trust-item", { y: 8, autoAlpha: 0, stagger: 0.03, duration: 0.18 }, "-=0.1")
+          .from(".showcase-wrapper", { y: 16, autoAlpha: 0, duration: 0.28 }, "-=0.14");
+
+        // Set initial state upfront so elements don't flash when scrolling
+        gsap.set(".pipeline-card, .feat-card, .comp-table tbody tr", { autoAlpha: 0, y: 24 });
+
+        // 3-Step Pipeline Stagger on Scroll
+        ScrollTrigger.batch(".pipeline-card", {
+          start: "top 88%",
+          once: true,
+          onEnter: (batch) => {
+            gsap.to(batch, {
+              autoAlpha: 1,
+              y: 0,
+              stagger: 0.12,
+              duration: 0.5,
+              ease: "power2.out",
+              overwrite: "auto"
+            });
+          }
+        });
+
+        // Features Grid Stagger on Scroll
+        ScrollTrigger.batch(".feat-card", {
+          start: "top 88%",
+          once: true,
+          onEnter: (batch) => {
+            gsap.to(batch, {
+              autoAlpha: 1,
+              y: 0,
+              stagger: 0.08,
+              duration: 0.45,
+              ease: "power2.out",
+              overwrite: "auto"
+            });
+          }
+        });
+
+        // Comparison Table Rows Stagger on Scroll
+        ScrollTrigger.batch(".comp-table tbody tr", {
+          start: "top 90%",
+          once: true,
+          onEnter: (batch) => {
+            gsap.to(batch, {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              stagger: 0.05,
+              duration: 0.4,
+              ease: "power2.out",
+              overwrite: "auto"
+            });
+          }
+        });
+
+        ScrollTrigger.refresh();
+      });
+    }
+
+    // Initialize Lucide icons
+    if (window.lucide) {
+      window.lucide.createIcons();
+    } else {
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) window.lucide.createIcons();
+      });
+    }
+  </script>
+</body>
+</html>

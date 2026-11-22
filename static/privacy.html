@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Privacy Policy · Chopper</title>
+  <meta name="description" content="Chopper Privacy Policy. 100% on-device stream processing, zero cloud media storage, and full creator privacy.">
+  <meta name="theme-color" content="#FFF9F0">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=3">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=3">
+  <link rel="shortcut icon" href="/favicon.ico?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="/lucide.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #FFF9F0;
+      --bg-secondary: #FFFEFA;
+      --primary-pink: #AF134A;
+      --hover-pink: #8F0E3B;
+      --soft-pink: #FFE8EF;
+      --text-dark: #292326;
+      --text-secondary: #5C4F55;
+      --border-color: #F1DFE3;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary-pink);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .date {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 28px 0 10px;
+      color: var(--text-dark);
+    }
+    p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="/" class="back-link">
+      <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+      <span>Back to Chopper</span>
+    </a>
+    <div class="card">
+      <h1>Privacy Policy</h1>
+      <div class="date">Last Updated: November 2026</div>
+
+      <p>Chopper is built from the ground up on an <strong>on-device privacy architecture</strong>. We believe creators should maintain full ownership and confidentiality over their raw footage, audio streams, and generated clips.</p>
+
+      <h2>1. Zero Cloud Media Storage</h2>
+      <p>All video decoding, facecam tracking, audio spike detection, speech transcription, and 1080p rendering run 100% locally on your machine. Your raw stream footage and rendered clips are never transmitted to external cloud servers or third-party AI training pipelines.</p>
+
+      <h2>2. Local Model Execution</h2>
+      <p>Whisper AI speech recognition and OpenCV computer vision models execute entirely in your local runtime. Transcripts, coordinates, and word alignments never leave your device.</p>
+
+      <h2>3. Data Retention and Deletion</h2>
+      <p>Temporary processing files are stored in your local application directory and can be purged at any time. Chopper does not track your viewing habits or resell creator analytics.</p>
+    </div>
+  </div>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>
