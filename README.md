@@ -15,7 +15,8 @@ Chopper ingests hours of raw livestream footage and automates the entire vertica
 * **Automated Facecam Isolation**: Neural face tracking locates the streamer camera in the stream frame and pins it above full gameplay.
 * **Acoustic Peak Detection**: Analyzes decibel spikes, laughter bursts, and sudden volume transitions to detect clutch plays and viral moments.
 * **Animated Karaoke Subtitles**: Local Whisper AI transcribes spoken audio into word-accurate, synchronized ASS vertical captions.
-* **100% Local Execution**: All rendering, audio processing, and transcription run directly on your CPU and GPU with zero cloud subscription fees and complete footage confidentiality.
+* **Zero API Keys Required**: No OpenAI, Anthropic, or external API keys needed. You do not need to configure any paid cloud accounts.
+* **100% Local Execution**: All rendering, audio processing, and neural transcription run directly on your own CPU and GPU with zero subscription fees and complete footage privacy.
 
 ## Architecture
 
@@ -45,6 +46,25 @@ flowchart LR
 ### Why on-device
 
 Cloud-based clipping services charge recurring monthly subscriptions, throttle video length, and upload private creator VODs to remote servers. Chopper performs all computer vision, neural transcription, and video encoding locally, giving creators unlimited rendering capacity and complete control over their raw footage.
+
+### Local AI Models
+
+You do not need to purchase API credits or host heavy LLMs. Chopper uses lightweight, embedded AI models that execute entirely on local hardware:
+
+* **Faster-Whisper (`tiny` / `base`)**: Local CTranslate2-optimized speech recognition model for word-accurate subtitles. Runs completely on device without transmitting audio over the network.
+* **OpenCV YuNet ONNX**: High-speed, 300 KB convolutional neural network that detects streamer facecam coordinates in real time on any standard CPU.
+* **RMS Acoustic Heatmap Engine**: Mathematical root-mean-square volume peak analysis that flags energetic stream moments with zero AI compute overhead.
+
+## System Requirements
+
+| Component | Minimum Specification | Recommended Specification |
+|-----------|----------------------|---------------------------|
+| Operating System | Windows 10/11 (64-bit), macOS 12+, Ubuntu 20.04+ | Windows 11, macOS (Apple Silicon M1/M2/M3), Ubuntu 22.04+ |
+| Processor (CPU) | 4 Cores (Intel Core i3/i5 8th Gen, AMD Ryzen 3) | 6+ Cores (Intel Core i5/i7 10th Gen+, AMD Ryzen 5+) |
+| Memory (RAM) | 4 GB RAM | 8 GB or 16 GB RAM |
+| Graphics (GPU) | None required (CPU software encoding works 100%) | Dedicated NVIDIA GPU (NVENC), Intel QSV, or Apple Silicon |
+| Storage | 2 GB free disk space | 10 GB+ SSD space (for video cache and fast exports) |
+| Cloud AI APIs | Zero (No API keys or cloud accounts needed) | Zero (No API keys or cloud accounts needed) |
 
 ## Setup
 
