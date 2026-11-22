@@ -4,8 +4,8 @@ High-performance, on-device livestream clipping platform that transforms long Tw
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776AB)
 ![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688)
-![FFmpeg](https://img.shields.io/badge/video-FFmpeg-007808)
-![Whisper](https://img.shields.io/badge/AI-Faster--Whisper-orange)
+![FFmpeg](https://img.shields.io/badge/video-FFmpeg-green)
+![Whisper](https://img.shields.io/badge/AI-Whisper-orange)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Overview
